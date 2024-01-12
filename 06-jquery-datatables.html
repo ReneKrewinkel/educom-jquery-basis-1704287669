@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>It's a datatable</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"
+    />
+    <script src="js/jquery.js"></script>
+    <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+
+    <script>
+      $(document).ready(function () {
+        const dTable = $("#theBeatles").DataTable({
+          ajax: "https://api.dev-master.ninja/js/beatles",
+          columns: [
+            { data: "id" },
+            { data: "firstname" },
+            { data: "lastname" },
+            { data: "dateOfBirth" },
+            { data: "email" },
+          ],
+        });
+        $("#save").click(function () {
+          const data = {
+            firstname: $("#firstName").val(),
+            lastname: $("#lastName").val().toUpperCase(),
+            email: $("#email").val(),
+          };
+
+          $.ajax({
+            url: "https://api.dev-master.ninja/js/person/save",
+            method: "POST",
+            data: data,
+            success: function (data) {
+              $("#firstName").val(data.firstname);
+              $("#lastName").val(data.lastname);
+              $("#email").val(data.email);
+            },
+          });
+        });
+        setInterval(function () {
+          dTable.ajax.reload();
+        }, 10000);
+      });
+    </script>
+  </head>
+  <body>
+    <table id="theBeatles" class="display nowrap datTable dtr-inline collapsed">
+      <thead>
+        <th>ID</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Date of Birth</th>
+        <th>Email</th>
+      </thead>
+      >
+      <tbody></tbody>
+    </table>
+    <form id="form">
+      First Name: <input type="text" id="firstName" /><br />
+      Last Name: <input type="text" id="lastName" /><br />
+      E-mail: <input type="text" id="email" /><br />
+    </form>
+    <button id="save">Save</button>
+  </body>
+</html>
