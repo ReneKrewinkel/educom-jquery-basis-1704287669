@@ -1,4 +1,3 @@
-?<!DOCTYPE html>
 <html>
   <head>
     <link rel="stylesheet" href="css/vegas-style.css" />
@@ -8,37 +7,19 @@
     <script src="vegas/vegas.js"></script>
     <script>
       $(document).ready(function () {
-        const mySlides = [
-          {
-            src: "https://picsum.photos/id/1/1900/1200",
-            title: "Title #1",
-            subtitle: "Subtitle #1",
-          },
-          {
-            src: "https://picsum.photos/id/10/1900/1200",
-            title: "Title #2",
-            subtitle: "Subtitle #2",
-          },
-          {
-            src: "https://picsum.photos/id/100/1900/1200",
-            title: "Title #3",
-            subtitle: "Subtitle #3",
-          },
-          {
-            src: "https://picsum.photos/id/1000/1900/1200",
-            title: "Title #4",
-            subtitle: "Subtitle #4",
-          },
-        ];
+        let slides;
+        fetch(
+          "http://localhost/educom-jquery-basis-1704287669/06-jquery-vegas.json"
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            slides = data.mySlides;
 
-        $("#background-image").vegas({
-          overlay: "vegas/overlays/02.png",
-          slides: mySlides,
-          walk: function (index, slideSettings) {
-            $(".text-block h1").html(mySlides[index].title);
-            $(".text-block h4").html(mySlides[index].subtitle);
-          },
-        });
+            $("#background-image").vegas({
+              overlay: "vegas/overlays/02.png",
+              slides: slides,
+            });
+          });
       });
     </script>
   </head>
